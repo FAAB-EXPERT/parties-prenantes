@@ -3,8 +3,10 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
   return {
+    // Compatible avec GitHub Pages (https://faab-expert.github.io/parties-prenantes/) et AI Studio
+    base: process.env.GITHUB_PAGES === 'true' ? '/parties-prenantes/' : (command === 'build' ? './' : '/'),
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
