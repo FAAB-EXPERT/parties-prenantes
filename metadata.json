@@ -1,0 +1,6 @@
+{
+  "name": "Portail de Gouvernance Stratégique",
+  "description": "Plateforme de cartographie transverse des parties prenantes, matrice de Mendelow, matrice RACI et workflows opérationnels (PSD).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
