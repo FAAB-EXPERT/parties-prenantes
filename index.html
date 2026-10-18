@@ -9,87 +9,9 @@
     <meta property="og:description" content="Plateforme de cartographie transverse des parties prenantes, matrice de Mendelow, matrice RACI et workflows opérationnels (PSD)." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="importmap">
-      {
-        "imports": {
-          "react": "https://esm.sh/react@19.0.1",
-          "react-dom/client": "https://esm.sh/react-dom@19.0.1/client?deps=react@19.0.1",
-          "lucide-react": "https://esm.sh/lucide-react@0.546.0?deps=react@19.0.1",
-          "recharts": "https://esm.sh/recharts@2.15.1?deps=react@19.0.1"
-        }
-      }
-    </script>
   </head>
   <body>
     <div id="root"></div>
-
-    <script>
-      // Chargeur automatique pour GitHub Pages en mode "Branch: main / (root)"
-      (function () {
-        var isGitHubPages = window.location.hostname.indexOf('github.io') !== -1;
-        if (!isGitHubPages) return;
-
-        window.addEventListener('DOMContentLoaded', async function () {
-          try {
-            // Vérifie si Vite n'a pas déjà compilé le fichier (cas où l'on sert la racine brute de la branche)
-            var rawScript = document.querySelector('script[src*="src/main.tsx"]');
-            if (!rawScript) return;
-
-            // 1. Chargement de Tailwind CSS pour le style
-            var twScript = document.createElement('script');
-            twScript.src = 'https://cdn.tailwindcss.com';
-            document.head.appendChild(twScript);
-
-            // 2. Chargement de Babel Standalone pour transpiler App.tsx à la volée dans le navigateur
-            await new Promise(function (resolve, reject) {
-              var babelScript = document.createElement('script');
-              babelScript.src = 'https://unpkg.com/@babel/standalone/babel.min.js';
-              babelScript.onload = resolve;
-              babelScript.onerror = reject;
-              document.head.appendChild(babelScript);
-            });
-
-            // 3. Récupération et compilation de ./src/App.tsx
-            var response = await fetch('./src/App.tsx');
-            var tsxCode = await response.text();
-
-            var compiled = window.Babel.transform(tsxCode, {
-              filename: 'App.tsx',
-              presets: [
-                'typescript',
-                ['react', { runtime: 'classic' }]
-              ]
-            }).code;
-
-            // Résolution des imports ESM via CDN esm.sh (instance React partagée)
-            compiled = compiled
-              .replace(/from\s+['"]react['"]/g, 'from "https://esm.sh/react@19.0.1"')
-              .replace(/from\s+['"]lucide-react['"]/g, 'from "https://esm.sh/lucide-react@0.546.0?deps=react@19.0.1"')
-              .replace(/from\s+['"]recharts['"]/g, 'from "https://esm.sh/recharts@2.15.1?deps=react@19.0.1"');
-
-            var blob = new Blob([compiled], { type: 'text/javascript' });
-            var moduleUrl = URL.createObjectURL(blob);
-
-            var ReactMod = await import('https://esm.sh/react@19.0.1');
-            var ReactDOMMod = await import('https://esm.sh/react-dom@19.0.1/client?deps=react@19.0.1');
-            var AppMod = await import(moduleUrl);
-
-            var React = ReactMod.default || ReactMod;
-            var createRoot = ReactDOMMod.createRoot || (ReactDOMMod.default && ReactDOMMod.default.createRoot);
-
-            var rootEl = document.getElementById('root');
-            if (rootEl && AppMod.default && createRoot) {
-              createRoot(rootEl).render(
-                React.createElement(AppMod.default)
-              );
-            }
-          } catch (err) {
-            console.error('Erreur de chargement GitHub Pages :', err);
-          }
-        });
-      })();
-    </script>
-
-    <script type="module" src="./src/main.tsx"></script>
+    <script type="module" src="./src/entry.js"></script>
   </body>
 </html>
