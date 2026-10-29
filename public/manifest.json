@@ -1,0 +1,40 @@
+{
+  "id": "faab-actor-pwa-v6",
+  "name": "FAAB ACTOR",
+  "short_name": "FAAB ACTOR",
+  "description": "FAAB ACTOR — Plateforme Universelle de Planification Stratégique, Réseau PERT, Gouvernance des Acteurs, RACI, Suivi Opérationnel & Génération Documentaire",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#881337",
+  "theme_color": "#881337",
+  "lang": "fr",
+  "categories": ["business", "productivity", "finance", "education"],
+  "icons": [
+    {
+      "src": "./pwa-192x192.png?v=6",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./pwa-192x192.png?v=6",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./pwa-512x512.png?v=6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./pwa-512x512.png?v=6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
