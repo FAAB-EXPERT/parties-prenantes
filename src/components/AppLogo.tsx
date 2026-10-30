@@ -13,7 +13,7 @@ export const AppLogo: React.FC<AppLogoProps> = ({
   const sources = [
     './logo.png?v=7',
     './favicon.png?v=7',
-    './assets/aistudio/logo_28c10065.png?v=7'
+    './public/logo.png?v=7'
   ];
 
   if (srcIndex < sources.length) {

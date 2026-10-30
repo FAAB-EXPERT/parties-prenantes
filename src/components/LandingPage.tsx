@@ -774,7 +774,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       >
         <video
           ref={bgVideoRef}
-          src="./assets/aistudio/smoke-intro_6dd80e7b.mp4"
+          src={
+            typeof window !== 'undefined' && window.location.hostname.includes('github.io')
+              ? './public/assets/aistudio/smoke-intro_6dd80e7b.mp4'
+              : './assets/aistudio/smoke-intro_6dd80e7b.mp4'
+          }
           autoPlay
           loop
           muted
@@ -802,7 +806,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           }`}
         >
           <img
-            src="./assets/aistudio/logo_28c10065.png"
+            src="./logo.png?v=7"
             alt="FAAB ACTOR"
             className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 object-contain drop-shadow-[0_0_35px_rgba(144,213,255,0.85)] select-none"
           />

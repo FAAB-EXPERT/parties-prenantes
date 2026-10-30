@@ -14,7 +14,7 @@ import {
   computeTaskMetrics,
   getTodayISO
 } from './pertUtils';
-import { StructuredA4Table } from './docTemplates';
+import type { StructuredA4Table } from './docTemplates';
 import { ensureDossierCategorizedActors } from './db';
 
 

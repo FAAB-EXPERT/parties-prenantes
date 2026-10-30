@@ -1,11 +1,11 @@
-const CACHE_NAME = 'faab-actor-pwa-cache-v8';
+const CACHE_NAME = 'faab-actor-pwa-cache-v9';
 const CORE_ASSETS = [
   './',
   './index.html',
+  './src/entry.js',
   './manifest.json',
   './logo.png',
   './favicon.png',
-  './favicon.svg',
   './pwa-192x192.png',
   './pwa-512x512.png',
   './apple-touch-icon.png'

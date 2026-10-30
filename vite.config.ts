@@ -186,87 +186,24 @@ export default defineConfig(() => {
         transformIndexHtml: {
           order: 'pre',
           handler(html) {
-            return html
-              .replace(/<link[^>]*id="gh-raw-css"[^>]*>\s*/g, '')
-              .replace(/<script[^>]*id="gh-raw-js"[^>]*><\/script>\s*/g, '')
-              .replace(
-                '<!-- VITE_DEV_OR_BUILD_ENTRY -->',
-                '<script type="module" src="./src/main.tsx"></script>'
-              );
+            return html.replace(
+              '<script type="module" src="./src/entry.js"></script>',
+              '<script type="module" src="./src/main.tsx"></script>'
+            );
           },
         },
         closeBundle() {
           const rootDir = process.cwd();
           const distDir = path.resolve(rootDir, 'dist');
-          const docsDir = path.resolve(rootDir, 'docs');
-          const publicDir = path.resolve(rootDir, 'public');
           const indexPath = path.join(distDir, 'index.html');
           const notFoundPath = path.join(distDir, '404.html');
           const noJekyllPath = path.join(distDir, '.nojekyll');
 
-          // Ensure 404.html fallback exists for GitHub Pages SPA routing
           if (fs.existsSync(indexPath)) {
             fs.copyFileSync(indexPath, notFoundPath);
           }
-          // Ensure .nojekyll exists in dist
-          fs.writeFileSync(noJekyllPath, '# Disable Jekyll\n');
-
-          // Clean and mirror dist into docs/ so "Deploy from branch -> /docs" and "/ (root)" always have fresh assets
           if (fs.existsSync(distDir)) {
-            fs.rmSync(docsDir, { recursive: true, force: true });
-            fs.cpSync(distDir, docsDir, { recursive: true, force: true });
-          }
-
-          // Copy static root icons/.nojekyll/PWA files so "/ (root)" mode also resolves ./logo.png, ./favicon.png, ./favicon.svg, manifest.json, sw.js and .nojekyll
-          for (const file of [
-            'logo.png',
-            'favicon.png',
-            'logo.svg',
-            'favicon.svg',
-            'pwa-192x192.png',
-            'pwa-512x512.png',
-            'apple-touch-icon.png',
-            'manifest.json',
-            'sw.js',
-            '.nojekyll'
-          ]) {
-            const srcFile = path.join(publicDir, file);
-            const destFile = path.join(rootDir, file);
-            if (fs.existsSync(srcFile)) {
-              fs.copyFileSync(srcFile, destFile);
-            }
-          }
-
-          // Also mirror public/assets into root /assets so ./assets/aistudio/* resolves at root on GitHub Pages ("/ (root)" branch mode)
-          const publicAssetsDir = path.join(publicDir, 'assets');
-          const rootAssetsDir = path.join(rootDir, 'assets');
-          if (fs.existsSync(publicAssetsDir)) {
-            fs.rmSync(rootAssetsDir, { recursive: true, force: true });
-            fs.cpSync(publicAssetsDir, rootAssetsDir, { recursive: true, force: true });
-          }
-
-          // Update root index.html fallback asset filenames to match the latest build in docs/assets/
-          const rootIndexPath = path.join(rootDir, 'index.html');
-          const rootNotFoundPath = path.join(rootDir, '404.html');
-          if (fs.existsSync(indexPath) && fs.existsSync(rootIndexPath)) {
-            const builtHtml = fs.readFileSync(indexPath, 'utf-8');
-            const jsMatch = builtHtml.match(/src="\.\/assets\/(index-[^"]+\.js)"/);
-            const cssMatch = builtHtml.match(/href="\.\/assets\/(index-[^"]+\.css)"/);
-            let rootHtml = fs.readFileSync(rootIndexPath, 'utf-8');
-            if (cssMatch) {
-              rootHtml = rootHtml.replace(
-                /href="\.\/docs\/assets\/index-[^"]+\.css"/,
-                `href="./docs/assets/${cssMatch[1]}"`
-              );
-            }
-            if (jsMatch) {
-              rootHtml = rootHtml.replace(
-                /src="\.\/docs\/assets\/index-[^"]+\.js"/,
-                `src="./docs/assets/${jsMatch[1]}"`
-              );
-            }
-            fs.writeFileSync(rootIndexPath, rootHtml);
-            fs.writeFileSync(rootNotFoundPath, rootHtml);
+            fs.writeFileSync(noJekyllPath, '# Disable Jekyll\n');
           }
         }
       }
