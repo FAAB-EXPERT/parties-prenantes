@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -6,7 +6,8 @@ import {
   signOut,
   onAuthStateChanged,
   sendPasswordResetEmail,
-  User as FirebaseSdkUser
+  type Auth,
+  type User as FirebaseSdkUser
 } from "firebase/auth";
 import {
   getFirestore,
@@ -17,7 +18,8 @@ import {
   getDocs,
   onSnapshot,
   query,
-  orderBy
+  orderBy,
+  type Firestore
 } from "firebase/firestore";
 
 export const SUPER_ADMIN_EMAIL = "fabien.frikupgeneration@gmail.com";
@@ -32,9 +34,36 @@ const firebaseConfig = {
   appId: "1:739874836052:web:acccab79a9f632a00ba7c1"
 };
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Synchronise la configuration par défaut au cas où un CDN ESM (ex: esm.sh) isole les sous-modules @firebase/app
+if (typeof globalThis !== "undefined") {
+  (globalThis as Record<string, unknown>).__FIREBASE_DEFAULTS__ = {
+    config: firebaseConfig
+  };
+}
+
+// Vérifie les instances existantes avec getApps() avant d'initialiser l'application Firebase
+export const app: FirebaseApp =
+  getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+
+function initFirebaseAuth(firebaseApp: FirebaseApp): Auth {
+  try {
+    return getAuth(firebaseApp);
+  } catch {
+    return getAuth();
+  }
+}
+
+function initFirebaseFirestore(firebaseApp: FirebaseApp): Firestore {
+  try {
+    return getFirestore(firebaseApp);
+  } catch {
+    return getFirestore();
+  }
+}
+
+// Passe explicitement l'instance de l'application (app) à getAuth et getFirestore
+export const auth: Auth = initFirebaseAuth(app);
+export const db: Firestore = initFirebaseFirestore(auth.app || app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 

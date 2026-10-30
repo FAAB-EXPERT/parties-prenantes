@@ -128,9 +128,9 @@ if (!isGitHubPages) {
         import(/* @vite-ignore */ 'https://esm.sh/jspdf@2.5.2'),
         import(/* @vite-ignore */ 'https://esm.sh/jspdf-autotable@3.8.4?deps=jspdf@2.5.2'),
         import(/* @vite-ignore */ 'https://esm.sh/jszip@3.10.1'),
-        import(/* @vite-ignore */ 'https://esm.sh/firebase@11.3.1/app'),
-        import(/* @vite-ignore */ 'https://esm.sh/firebase@11.3.1/auth'),
-        import(/* @vite-ignore */ 'https://esm.sh/firebase@11.3.1/firestore'),
+        import(/* @vite-ignore */ 'https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js'),
+        import(/* @vite-ignore */ 'https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js'),
+        import(/* @vite-ignore */ 'https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js'),
         Promise.all(
           sourceFiles.map(async filePath => {
             const res = await fetch('./' + filePath);
