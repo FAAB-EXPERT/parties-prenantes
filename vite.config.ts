@@ -237,8 +237,17 @@ export default defineConfig(() => {
             }
           }
 
+          // Also mirror public/assets into root /assets so ./assets/aistudio/* resolves at root on GitHub Pages ("/ (root)" branch mode)
+          const publicAssetsDir = path.join(publicDir, 'assets');
+          const rootAssetsDir = path.join(rootDir, 'assets');
+          if (fs.existsSync(publicAssetsDir)) {
+            fs.rmSync(rootAssetsDir, { recursive: true, force: true });
+            fs.cpSync(publicAssetsDir, rootAssetsDir, { recursive: true, force: true });
+          }
+
           // Update root index.html fallback asset filenames to match the latest build in docs/assets/
           const rootIndexPath = path.join(rootDir, 'index.html');
+          const rootNotFoundPath = path.join(rootDir, '404.html');
           if (fs.existsSync(indexPath) && fs.existsSync(rootIndexPath)) {
             const builtHtml = fs.readFileSync(indexPath, 'utf-8');
             const jsMatch = builtHtml.match(/src="\.\/assets\/(index-[^"]+\.js)"/);
@@ -257,6 +266,7 @@ export default defineConfig(() => {
               );
             }
             fs.writeFileSync(rootIndexPath, rootHtml);
+            fs.writeFileSync(rootNotFoundPath, rootHtml);
           }
         }
       }
